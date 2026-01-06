@@ -18,7 +18,7 @@ public enum Course {
     }
 
     // 백앤드 -> CourseBACKEND
-    public static Course form(String name) {
+    public static Course from(String name) {
         return Arrays.stream(values())
                 .filter(course -> course.name.equals(name))
                 .findFirst()

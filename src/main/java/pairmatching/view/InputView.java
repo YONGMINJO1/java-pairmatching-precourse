@@ -8,7 +8,7 @@ public class InputView {
         return Console.readLine();
     }
 
-    public static String readCourseAndLevelAndMisstion() {
+    public static String readCourseAndLevelAndMission() {
         return Console.readLine();
     }
 
