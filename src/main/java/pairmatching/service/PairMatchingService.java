@@ -201,4 +201,41 @@ public class PairMatchingService {
         }
         return FRONTEND_CREW_FILE;
     }
+
+    public List<Pair> find(Course course, Level level, Mission mission) {
+        String key = createKey(course, level);
+
+        // 기록이 없으면 예외
+        if (!matchingHistory.containsKey(key)) {
+            throw new IllegalArgumentException(
+                    "[ERROR] 매칭 이력이 없습니다."
+            );
+        }
+
+        List<List<Pair>> matchings = matchingHistory.get(key);
+
+        // 빈 리스트면 예외
+        if (matchings.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "[ERROR] 매칭 이력이 없습니다."
+            );
+        }
+        // 마직막 매칭 반환
+        return matchings.get(matchings.size() - 1);
+    }
+
+    public void clearAll() {
+        matchingHistory.clear();
+    }
+
+    public boolean hasMatchingHistory(Course course, Level level, Mission mission) {
+        String key = createKey(course, level);
+
+        if (!matchingHistory.containsKey(key)) {
+            return false;
+        }
+
+        List<List<Pair>> matchings = matchingHistory.get(key);
+        return !matchings.isEmpty();
+    }
 }
