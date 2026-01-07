@@ -96,7 +96,7 @@ public class MissionTest {
     @Test
     void 다른_레벨이면_다른_Mission() {
         Mission mission1 = new Mission("자동차경주", Level.LEVEL1);
-        Mission mission2 = new Mission("자동차경주", Level.LEVEL2);
+        Mission mission2 = new Mission("장바구니", Level.LEVEL2);
 
         assertThat(mission1).isNotEqualTo(mission2);
     }
