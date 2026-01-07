@@ -9,23 +9,23 @@ public class Mission {
     private static final List<String> LEVEL1_MISSIONS =
             Arrays.asList("자동차경주", "로또", "숫자야구게임");
 
-    private static final List<String> LEVEL2_MISSTIONS =
+    private static final List<String> LEVEL2_MISSIONS =
             Arrays.asList("장바구니", "결제", "지하철노선도");
-    private static final List<String> LEVEL4_MISSTIONS =
-            Arrays.asList("성능개선", "베포");
+    private static final List<String> LEVEL4_MISSIONS =
+            Arrays.asList("성능개선", "배포");
 
     private final String name;
     private final Level level;
 
     public Mission(String name, Level level) {
-        vaildate(name, level); //검증부터
+        validate(name, level); //검증부터
         this.name = name;
         this.level = level;
     }
 
-    private void vaildate(String name, Level level) {
+    private void validate(String name, Level level) {
         // 1단계 - 이 레벨에 해당하는 미션 목록 가져오기
-        List<String> validMisstions = getMisstionsForLevel(level);
+        List<String> validMisstions = getMissionsForLevel(level);
 
         // 2단계 - 목록애 있는지 확인
         if (!validMisstions.contains(name)) {
@@ -35,15 +35,15 @@ public class Mission {
         }
     }
 
-    private List<String> getMisstionsForLevel(Level level) {
+    private List<String> getMissionsForLevel(Level level) {
         if (level == Level.LEVEL1) {
             return LEVEL1_MISSIONS;
         }
         if (level == Level.LEVEL2) {
-            return LEVEL2_MISSTIONS;
+            return LEVEL2_MISSIONS;
         }
         if (level == Level.LEVEL4) {
-            return LEVEL4_MISSTIONS;
+            return LEVEL4_MISSIONS;
         }
 
         // 여기 도달 = 레벨 3 또는 레벨 5

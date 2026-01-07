@@ -47,11 +47,11 @@ public class Crew {
             return false;
         }
         Crew crew = (Crew) o;
-        return course == crew.course && Objects.equals(name, crew.name);
+        return Objects.equals(name, crew.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(course, name);
+        return Objects.hash(name);
     }
 }
