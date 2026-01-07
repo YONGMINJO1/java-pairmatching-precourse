@@ -89,4 +89,88 @@ public class PairTest {
         assertThatThrownBy(() -> new Pair(crews))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 포함된_크루_확인() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+        Pair pair = new Pair(Arrays.asList(pobi, crong));
+
+        // when & then
+        assertThat(pair.contains(pobi)).isTrue();
+        assertThat(pair.contains(crong)).isTrue();
+    }
+
+    @Test
+    void 포함되지_않은_크루_확인() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+        Crew gugu = new Crew("구구", Course.BACKEND);
+        Pair pair = new Pair(Arrays.asList(pobi, crong));
+
+        // when & then
+        assertThat(pair.contains(gugu)).isFalse();
+    }
+
+    @Test
+    void 공통_크루_있음_일부_겹침() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+        Crew gugu = new Crew("구구", Course.BACKEND);
+
+        Pair pair1 = new Pair(Arrays.asList(pobi, crong));
+        Pair pair2 = new Pair(Arrays.asList(pobi, gugu));
+
+        // when & then
+        assertThat(pair1.hasCommonCrew(pair2)).isTrue();
+        assertThat(pair2.hasCommonCrew(pair1)).isTrue();  // 반대도 true!
+    }
+
+    @Test
+    void 공통_크루_있음_완전_겹침() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+
+        Pair pair1 = new Pair(Arrays.asList(pobi, crong));
+        Pair pair2 = new Pair(Arrays.asList(pobi, crong));
+
+        // when & then
+        assertThat(pair1.hasCommonCrew(pair2)).isTrue();
+    }
+
+    @Test
+    void 공통_크루_없음() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+        Crew gugu = new Crew("구구", Course.BACKEND);
+        Crew sunny = new Crew("써니", Course.BACKEND);
+
+        Pair pair1 = new Pair(Arrays.asList(pobi, crong));
+        Pair pair2 = new Pair(Arrays.asList(gugu, sunny));
+
+        // when & then
+        assertThat(pair1.hasCommonCrew(pair2)).isFalse();
+        assertThat(pair2.hasCommonCrew(pair1)).isFalse();
+    }
+
+    @Test
+    void 세명_페어끼리_공통_크루_확인() {
+        // given
+        Crew pobi = new Crew("포비", Course.BACKEND);
+        Crew crong = new Crew("크롱", Course.BACKEND);
+        Crew gugu = new Crew("구구", Course.BACKEND);
+        Crew sunny = new Crew("써니", Course.BACKEND);
+        Crew jason = new Crew("제이슨", Course.BACKEND);
+
+        Pair pair1 = new Pair(Arrays.asList(pobi, crong, gugu));
+        Pair pair2 = new Pair(Arrays.asList(gugu, sunny, jason));
+
+        // when & then
+        assertThat(pair1.hasCommonCrew(pair2)).isTrue();  // 구구 공통
+    }
 }
