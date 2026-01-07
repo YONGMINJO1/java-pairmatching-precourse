@@ -70,7 +70,6 @@ public class CourseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
-
     @Test
     void 영문_입력_예외() {
         String input = "Backend";  // 영문
@@ -79,7 +78,7 @@ public class CourseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
-
+    
     @Test
     void 대소문자_혼합_예외() {
         String input = "백엔드Backend";
@@ -88,7 +87,7 @@ public class CourseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
-
+    
     @Test
     void 숫자_포함_예외() {
         String input = "백엔드1";
