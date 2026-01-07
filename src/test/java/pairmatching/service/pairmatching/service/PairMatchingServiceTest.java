@@ -1,6 +1,7 @@
 package pairmatching.service.pairmatching.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,5 +115,85 @@ public class PairMatchingServiceTest {
 
         assertThat(foundPairs).isNotNull();
         assertThat(foundPairs).hasSize(matchedPairs.size());
+    }
+
+    @Test
+    void match_정상_매칭() {
+        // given
+        Course course = Course.BACKEND;
+        Level level = Level.LEVEL1;
+        Mission mission = new Mission("자동차경주", level);
+
+        // when
+        List<Pair> pairs = service.match(course, level, mission);
+
+        // then
+        assertThat(pairs).isNotNull();
+        assertThat(pairs).isNotEmpty();
+
+        // 각 Pair 가 2~3명인지 확인
+        for (Pair pair : pairs) {
+            int size = pair.getCrews().size();
+            assertThat(size).isBetween(2, 3);
+        }
+    }
+
+    @Test
+    void match_후_이력_저장() {
+        // given
+        Course course = Course.BACKEND;
+        Level level = Level.LEVEL1;
+        Mission mission = new Mission("자동차경주", level);
+
+        // when
+        service.match(course, level, mission);
+
+        // then - 이력이 저장되었는지
+        assertThat(service.hasMatchingHistory(course, level, mission))
+                .isTrue();
+
+        // 조회도 가능한지
+        List<Pair> foundPairs = service.find(course, level, mission);
+        assertThat(foundPairs).isNotNull();
+    }
+
+    @Test
+    void 프론트엔드_매칭() {
+        // given
+        Course course = Course.FRONTEND;
+        Level level = Level.LEVEL1;
+        Mission mission = new Mission("자동차경주", level);
+
+        // when
+        List<Pair> pairs = service.match(course, level, mission);
+
+        // then
+        assertThat(pairs).isNotNull();
+        assertThat(pairs).isNotEmpty();
+
+        for (Pair pair : pairs) {
+            int size = pair.getCrews().size();
+            assertThat(size).isBetween(2, 3);
+        }
+    }
+
+    @Test
+    void 백엔드와_프론트엔드_독립적() {
+        // given
+        Course backend = Course.BACKEND;
+        Course frontend = Course.FRONTEND;
+        Level level = Level.LEVEL1;
+        Mission mission1 = new Mission("자동차경주", level);
+        Mission mission2 = new Mission("자동차경주", level);
+
+        // when - 각각 매칭
+        service.match(backend, level, mission1);
+        service.match(frontend, level, mission2);
+
+        // then - 둘 다 이력 있어야 함
+        assertThat(service.hasMatchingHistory(backend, level, mission1))
+                .isTrue();
+        assertThat(service.hasMatchingHistory(frontend, level, mission2))
+                .isTrue();
     }
 }
