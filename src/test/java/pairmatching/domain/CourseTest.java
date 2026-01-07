@@ -41,4 +41,60 @@ public class CourseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    void 빈_문자열_예외() {
+        // given
+        String input = "";
+
+        // when & then
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void null_입력_예외() {
+        // given
+        String input = null;
+
+        // when & then
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+    
+    @Test
+    void 공백_포함_예외() {
+        String input = "백 엔드";  // 공백 있음
+
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 영문_입력_예외() {
+        String input = "Backend";  // 영문
+
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 대소문자_혼합_예외() {
+        String input = "백엔드Backend";
+
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 숫자_포함_예외() {
+        String input = "백엔드1";
+
+        assertThatThrownBy(() -> Course.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
